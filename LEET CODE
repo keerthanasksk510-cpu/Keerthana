@@ -1,0 +1,271 @@
+//1.remove element from an array
+int removeElement(int* nums, int numsSize, int val)
+ {
+    int k=0;
+    for(int i=0; i<numsSize; i++)
+    {
+        if(nums[i]!=val)
+        {
+            nums[k]=nums[i];
+            k++;
+
+        }
+       
+    }
+     return k;
+ }
+//2.Remove duplicates from the sorted array
+int removeDuplicates(int* nums, int numsSize) {
+    int k=0;
+    for(int i=1;i<numsSize;i++)
+    {
+        if(nums[i]!=nums[k])
+        {
+            k++;
+            nums[k]=nums[i];
+    
+        }
+        
+    }
+
+    return k+1;
+}
+//3.Remove Duplicates from thr sorted array II
+int removeDuplicates(int* nums, int numsSize) {
+    int k=2;
+    if (numsSize <= 2) 
+    return numsSize;
+    for(int i=2;i<numsSize;i++)
+    {
+        if(nums[i]!=nums[k-2])
+        {
+            nums[k]=nums[i];
+            k++;
+        }
+    }
+        return k;
+    }
+//4.Majority element
+int majorityElement(int* nums, int numsSize) {
+    int k=0,count=0;
+    for(int i=0;i<numsSize;i++)
+    {
+    if (count==0)
+    {
+        k=nums[i];
+    }
+    if(k==nums[i])
+    {
+        count++;
+    }
+    else
+    {
+        count--;
+    }
+
+    }
+    return k;
+    }
+    
+//5.Best time to buy and sell stock
+int maxProfit(int* prices, int pricesSize) {
+    int minprice=prices[0];
+    int maxprofit=0;
+    int profit;
+    for(int i=1;i<pricesSize;i++)
+    {
+        if(minprice>prices[i])
+        {
+        minprice=prices[i];
+        }
+    else
+    {
+     profit=prices[i]-minprice;
+    
+    if(profit>maxprofit)
+    {
+        maxprofit=profit;
+    }
+    }
+    }
+    return maxprofit;
+    
+}
+//6.Best time to buy and sell stock II
+int maxProfit(int* prices, int pricesSize) {
+    int profit=0;
+    for(int i=1;i<pricesSize;i++)
+    {
+    if(prices[i]>prices[i-1])
+    {
+        profit+=prices[i]-prices[i-1];
+    }
+    }
+    return profit;
+}
+//7.Rotate an array
+void rotate(int* nums, int numsSize, int k) {
+    if (numsSize==0)
+    return;
+    k=k%numsSize;
+    if(k==0)
+    return;
+    int temp[k];
+    for(int i=numsSize-k;i<numsSize;i++)
+    {
+        temp[i-numsSize+k]=nums[i];
+    }
+    for(int i=numsSize-k-1;i>=0;i--)
+    {
+        nums[i+k]=nums[i];
+    }
+    for(int i=0;i<k;i++)
+    {
+        nums[i]=temp[i];
+    }
+}
+//8.Merge sorted array
+void merge(int* nums1, int nums1Size, int m,
+           int* nums2, int nums2Size, int n)
+{
+    int i = m - 1;
+    int j = n - 1;
+    int k = m + n - 1;
+
+    while (i >= 0 && j >= 0)
+    {
+        if (nums1[i] > nums2[j])
+        {
+            nums1[k] = nums1[i];
+            i--;
+        }
+        else
+        {
+            nums1[k] = nums2[j];
+            j--;
+        }
+        k--;
+    }
+
+    while (j >= 0)
+    {
+        nums1[k] = nums2[j];
+        j--;
+        k--;
+    }
+}
+//9.Jump game
+bool canJump(int* nums, int numsSize) 
+{
+    int maxreach=0;
+    for(int i=0;i<numsSize-1;i++)
+    {
+        if(i>maxreach)
+        {
+            return false;
+        }
+        if(i+nums[i]>maxreach)
+        {
+            maxreach=i+nums[i];
+        }
+        if(maxreach>=numsSize-1)
+        {
+        return true;
+        }
+    }
+    return maxreach>=numsSize-1;
+}
+//10.Length of the last word.
+int lengthOfLastWord(char* s)
+{
+    int length=0;
+    int i= strlen(s) - 1;
+    while( i >=0 && s[i]==' ')
+    {
+        i--;
+    }
+    while( i >=0 && s[i]!=' ')
+    {
+        length++;
+        i--;
+    }
+    return length;
+
+    
+}
+//11.Roman to integer
+int value (char r)
+{
+    switch(r)
+    {
+        case 'I':
+        return 1;
+        case 'V':
+        return 5;
+        case 'X':
+        return 10;
+        case 'L':
+        return 50;
+        case 'C':
+        return 100;
+        case 'D':
+        return 500;
+        case 'M':
+        return 1000;
+        default:
+        return 0;
+    }
+}
+int romanToInt(char* s) {
+    int total=0;
+    int len=strlen(s);
+    for(int i=0;i<len;i++)
+    {
+        int current=value(s[i]);
+        int next=value(s[i+1]);
+        if(current<next)
+        
+            total-=current;
+    
+        else
+            total+=current;
+    }
+
+        return total;
+    }
+//12.Longest Common prefix
+// Comparison function for qsort
+int compareStrings(const void *a, const void *b) {
+    return strcmp(*(const char **)a, *(const char **)b);
+}
+
+char* longestCommonPrefix(char** strs, int strsSize) {
+    if (strsSize == 0) return "";
+    if (strsSize == 1) return strs[0];
+
+    // 1. Sort the array of strings alphabetically
+    qsort(strs, strsSize, sizeof(char *), compareStrings);
+
+    // 2. We only need to compare the first and last strings
+    char *first = strs[0];
+    char *last = strs[strsSize - 1];
+    
+    // 3. Find the length of the common prefix
+    int i = 0;
+    while (first[i] != '\0' && last[i] != '\0' && first[i] == last[i]) {
+        i++;
+    }
+
+    // 4. Null-terminate the string at the point where they diverge
+    // Note: In a real LeetCode-style problem, you'd malloc a new string.
+    // Here, we just modify the first string or create a static buffer.
+    char* result = (char*)malloc((i + 1) * sizeof(char));
+    strncpy(result, first, i);
+    result[i] = '\0';
+
+    return result;
+}
+    
+
+
+    
