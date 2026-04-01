@@ -1,0 +1,17 @@
+int removeElement(int* nums, int numsSize, int val) {
+    // k keeps track of the index where the next valid element should be placed
+    int k = 0;
+
+    for (int i = 0; i < numsSize; i++) {
+        // If the current element is NOT equal to val
+        if (nums[i] != val) {
+            // Move the current element to the 'k' index
+            nums[k] = nums[i];
+            // Increment k to point to the next available position
+            k++;
+        }
+    }
+
+    // k represents the total number of elements not equal to val
+    return k;
+}
