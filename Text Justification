@@ -1,0 +1,30 @@
+class Solution:
+    def fullJustify(self, words, maxWidth):
+        res = []        # Stores the final lines
+        cur_line = []   # Stores words for the current line
+        cur_len = 0     # Stores length of words in cur_line (excluding spaces)
+        
+        for w in words:
+            # Check if adding the word 'w' exceeds maxWidth
+            # len(cur_line) counts the minimum 1-space gaps between words
+            if cur_len + len(w) + len(cur_line) > maxWidth:
+                # Distribute spaces
+                # maxWidth - cur_len is the total number of spaces to add
+                for i in range(maxWidth - cur_len):
+                    # gaps = len(cur_line) - 1
+                    # 'or 1' handles single-word lines (prevents division by zero)
+                    gaps = len(cur_line) - 1 or 1
+                    cur_line[i % gaps] += ' '
+                
+                res.append("".join(cur_line))
+                cur_line, cur_len = [], 0
+            
+            cur_line.append(w)
+            cur_len += len(w)
+        
+        # Handle the very last line
+        # Left-justified, single space between words, pad spaces on the right
+        last_line = " ".join(cur_line).ljust(maxWidth)
+        res.append(last_line)
+        
+        return res
