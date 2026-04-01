@@ -1,0 +1,39 @@
+
+
+int trap(int* height, int heightSize) {
+    if (heightSize <= 2) {
+        return 0; // Need at least 3 bars to trap water
+    }
+
+    int left = 0;
+    int right = heightSize - 1;
+    int left_max = 0;
+    int right_max = 0;
+    int total_water = 0;
+
+    while (left < right) {
+        // We process the side with the lower height because 
+        // that side is the "bottleneck" for the water level.
+        if (height[left] < height[right]) {
+            if (height[left] >= left_max) {
+                // Update the maximum height seen from the left
+                left_max = height[left];
+            } else {
+                // If current height is less than left_max, water is trapped
+                total_water += (left_max - height[left]);
+            }
+            left++;
+        } else {
+            if (height[right] >= right_max) {
+                // Update the maximum height seen from the right
+                right_max = height[right];
+            } else {
+                // If current height is less than right_max, water is trapped
+                total_water += (right_max - height[right]);
+            }
+            right--;
+        }
+    }
+
+    return total_water;
+}
